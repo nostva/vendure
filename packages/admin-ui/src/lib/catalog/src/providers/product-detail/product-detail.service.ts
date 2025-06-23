@@ -4,10 +4,8 @@ import {
     CreateProductVariantInput,
     DataService,
     DeletionResult,
-    FacetWithValuesFragment,
     findTranslation,
     GetProductDetailQuery,
-    GetProductWithVariantsQuery,
     LanguageCode,
     UpdateProductInput,
     UpdateProductMutation,
@@ -100,6 +98,7 @@ export class ProductDetailService {
                   groups.map(c =>
                       this.dataService.product
                           .createProductOptionGroups({
+                              global: false,
                               code: normalizeString(c.name, '-'),
                               translations: [{ languageCode, name: c.name }],
                               options: c.values.map(v => ({

@@ -1,13 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import {
-    CreateProductOptionGroupInput,
-    Dialog,
-    findTranslation,
-    GetProductVariantOptionsQuery,
-    LanguageCode,
-    ServerConfigService,
-} from '@vendure/admin-ui/core';
+import { CreateProductOptionGroupInput, Dialog, LanguageCode } from '@vendure/admin-ui/core';
 import { normalizeString } from '@vendure/common/lib/normalize-string';
 
 @Component({
@@ -15,7 +8,7 @@ import { normalizeString } from '@vendure/common/lib/normalize-string';
     templateUrl: './create-product-option-group-dialog.component.html',
     styleUrls: ['./create-product-option-group-dialog.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+    standalone: false,
 })
 export class CreateProductOptionGroupDialogComponent implements Dialog<CreateProductOptionGroupInput> {
     resolveWith: (result?: CreateProductOptionGroupInput) => void;
@@ -43,6 +36,7 @@ export class CreateProductOptionGroupDialogComponent implements Dialog<CreatePro
             code,
             options: [],
             translations: [{ languageCode: this.languageCode, name }],
+            global: false,
         });
     }
 

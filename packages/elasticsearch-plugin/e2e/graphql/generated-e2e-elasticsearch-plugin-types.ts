@@ -484,6 +484,7 @@ export type Collection = Node & {
     description: Scalars['String']['output'];
     featuredAsset?: Maybe<Asset>;
     filters: Array<ConfigurableOperation>;
+    global: Scalars['Boolean']['output'];
     id: Scalars['ID']['output'];
     inheritFilters: Scalars['Boolean']['output'];
     isPrivate: Scalars['Boolean']['output'];
@@ -513,6 +514,7 @@ export type CollectionFilterParameter = {
     _or?: InputMaybe<Array<CollectionFilterParameter>>;
     createdAt?: InputMaybe<DateOperators>;
     description?: InputMaybe<StringOperators>;
+    global?: InputMaybe<BooleanOperators>;
     id?: InputMaybe<IdOperators>;
     inheritFilters?: InputMaybe<BooleanOperators>;
     isPrivate?: InputMaybe<BooleanOperators>;
@@ -778,6 +780,7 @@ export type CreateCollectionInput = {
     customFields?: InputMaybe<Scalars['JSON']['input']>;
     featuredAssetId?: InputMaybe<Scalars['ID']['input']>;
     filters: Array<ConfigurableOperationInput>;
+    global: Scalars['Boolean']['input'];
     inheritFilters?: InputMaybe<Scalars['Boolean']['input']>;
     isPrivate?: InputMaybe<Scalars['Boolean']['input']>;
     parentId?: InputMaybe<Scalars['ID']['input']>;
@@ -819,6 +822,7 @@ export type CreateCustomerResult = Customer | EmailAddressConflictError;
 export type CreateFacetInput = {
     code: Scalars['String']['input'];
     customFields?: InputMaybe<Scalars['JSON']['input']>;
+    global: Scalars['Boolean']['input'];
     isPrivate: Scalars['Boolean']['input'];
     translations: Array<FacetTranslationInput>;
     values?: InputMaybe<Array<CreateFacetValueWithFacetInput>>;
@@ -869,6 +873,7 @@ export type CreateProductInput = {
 export type CreateProductOptionGroupInput = {
     code: Scalars['String']['input'];
     customFields?: InputMaybe<Scalars['JSON']['input']>;
+    global: Scalars['Boolean']['input'];
     options: Array<CreateGroupOptionInput>;
     translations: Array<ProductOptionGroupTranslationInput>;
 };
@@ -1699,6 +1704,7 @@ export type Facet = Node & {
     code: Scalars['String']['output'];
     createdAt: Scalars['DateTime']['output'];
     customFields?: Maybe<Scalars['JSON']['output']>;
+    global: Scalars['Boolean']['output'];
     id: Scalars['ID']['output'];
     isPrivate: Scalars['Boolean']['output'];
     languageCode: LanguageCode;
@@ -1719,6 +1725,7 @@ export type FacetFilterParameter = {
     _or?: InputMaybe<Array<FacetFilterParameter>>;
     code?: InputMaybe<StringOperators>;
     createdAt?: InputMaybe<DateOperators>;
+    global?: InputMaybe<BooleanOperators>;
     id?: InputMaybe<IdOperators>;
     isPrivate?: InputMaybe<BooleanOperators>;
     languageCode?: InputMaybe<StringOperators>;
@@ -4532,6 +4539,7 @@ export type ProductOptionGroup = Node & {
     code: Scalars['String']['output'];
     createdAt: Scalars['DateTime']['output'];
     customFields?: Maybe<Scalars['JSON']['output']>;
+    global: Scalars['Boolean']['output'];
     id: Scalars['ID']['output'];
     languageCode: LanguageCode;
     name: Scalars['String']['output'];
@@ -4551,6 +4559,7 @@ export type ProductOptionGroupFilterParameter = {
     _or?: InputMaybe<Array<ProductOptionGroupFilterParameter>>;
     code?: InputMaybe<StringOperators>;
     createdAt?: InputMaybe<DateOperators>;
+    global?: InputMaybe<BooleanOperators>;
     id?: InputMaybe<IdOperators>;
     languageCode?: InputMaybe<StringOperators>;
     name?: InputMaybe<StringOperators>;
@@ -6282,6 +6291,7 @@ export type UpdateCollectionInput = {
     customFields?: InputMaybe<Scalars['JSON']['input']>;
     featuredAssetId?: InputMaybe<Scalars['ID']['input']>;
     filters?: InputMaybe<Array<ConfigurableOperationInput>>;
+    global?: InputMaybe<Scalars['Boolean']['input']>;
     id: Scalars['ID']['input'];
     inheritFilters?: InputMaybe<Scalars['Boolean']['input']>;
     isPrivate?: InputMaybe<Scalars['Boolean']['input']>;
@@ -6332,6 +6342,7 @@ export type UpdateCustomerResult = Customer | EmailAddressConflictError;
 export type UpdateFacetInput = {
     code?: InputMaybe<Scalars['String']['input']>;
     customFields?: InputMaybe<Scalars['JSON']['input']>;
+    global?: InputMaybe<Scalars['Boolean']['input']>;
     id: Scalars['ID']['input'];
     isPrivate?: InputMaybe<Scalars['Boolean']['input']>;
     translations?: InputMaybe<Array<FacetTranslationInput>>;
@@ -6407,6 +6418,7 @@ export type UpdateProductInput = {
 export type UpdateProductOptionGroupInput = {
     code?: InputMaybe<Scalars['String']['input']>;
     customFields?: InputMaybe<Scalars['JSON']['input']>;
+    global?: InputMaybe<Scalars['Boolean']['input']>;
     id: Scalars['ID']['input'];
     translations?: InputMaybe<Array<ProductOptionGroupTranslationInput>>;
 };

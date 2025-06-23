@@ -9,7 +9,7 @@ import { debounceTime, distinctUntilChanged, map, startWith, switchMap, tap } fr
     templateUrl: './move-collections-dialog.component.html',
     styleUrls: ['./move-collections-dialog.component.scss', '../collection-list/collection-list-common.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+    standalone: false,
 })
 export class MoveCollectionsDialogComponent
     implements OnInit, Dialog<ItemOf<GetCollectionListQuery, 'collections'>>
@@ -24,7 +24,10 @@ export class MoveCollectionsDialogComponent
     expandedIds: string[] = [];
     subCollections$: Observable<Array<ItemOf<GetCollectionListQuery, 'collections'>>>;
 
-    constructor(private dataService: DataService, private i18nService: I18nService) {}
+    constructor(
+        private dataService: DataService,
+        private i18nService: I18nService,
+    ) {}
 
     ngOnInit() {
         const getCollectionsResult = this.dataService.collection.getCollections();
@@ -78,6 +81,7 @@ export class MoveCollectionsDialogComponent
                               isPrivate: false,
                               createdAt: '',
                               updatedAt: '',
+                              global: false,
                           } satisfies ItemOf<GetCollectionListQuery, 'collections'>,
                       ]
                     : []),

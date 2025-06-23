@@ -57,4 +57,7 @@ export class ProductOptionGroup
 
     @Column(type => CustomProductOptionGroupFields)
     customFields: CustomProductOptionGroupFields;
+
+    @Column({ default: false })
+    global: boolean;
 }

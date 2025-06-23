@@ -93,4 +93,7 @@ export class Collection
     @ManyToMany(type => Channel, channel => channel.collections)
     @JoinTable()
     channels: Channel[];
+
+    @Column({ default: false })
+    global: boolean;
 }

@@ -1,14 +1,14 @@
 import { Injectable } from '@nestjs/common';
+import { Permission } from '@vendure/common/lib/generated-types';
 import { omit } from '@vendure/common/lib/omit';
 import { ID, Type } from '@vendure/common/lib/shared-types';
-import { FindOneOptions } from 'typeorm';
 import { FindManyOptions } from 'typeorm/find-options/FindManyOptions';
 
 import { RequestContext } from '../../../api/common/request-context';
+import { ForbiddenError } from '../../../common';
 import { Translatable, TranslatedInput, Translation } from '../../../common/types/locale-types';
 import { TransactionalConnection } from '../../../connection/transactional-connection';
 import { VendureEntity } from '../../../entity/base/base.entity';
-import { ProductOptionGroup } from '../../../entity/product-option-group/product-option-group.entity';
 import { patchEntity } from '../utils/patch-entity';
 
 import { TranslationDiffer } from './translation-differ';
@@ -65,7 +65,9 @@ export class TranslatableSaver {
      */
     async create<T extends Translatable & VendureEntity>(options: CreateTranslatableOptions<T>): Promise<T> {
         const { ctx, entityType, translationType, input, beforeSave, typeOrmSubscriberData } = options;
-
+        if ('global' in input && input.global && !ctx.userHasPermissions([Permission.SuperAdmin])) {
+            throw new ForbiddenError();
+        }
         const entity = new entityType(input);
         const translations: Array<Translation<T>> = [];
 
@@ -93,13 +95,19 @@ export class TranslatableSaver {
      */
     async update<T extends Translatable & VendureEntity>(options: UpdateTranslatableOptions<T>): Promise<T> {
         const { ctx, entityType, translationType, input, beforeSave, typeOrmSubscriberData } = options;
+        if ('global' in input) {
+            const baseEntity = await this.connection.getEntityOrThrow(ctx, entityType, input.id);
+            const isChangingGlobalField = 'global' in baseEntity && baseEntity.global !== input.global;
+            if (isChangingGlobalField && !ctx.userHasPermissions([Permission.SuperAdmin])) {
+                throw new ForbiddenError();
+            }
+        }
         const existingTranslations = await this.connection.getRepository(ctx, translationType).find({
             relationLoadStrategy: 'query',
             loadEagerRelations: false,
             where: { base: { id: input.id } } as Translation<T>,
             relations: ['base'],
         } as FindManyOptions<Translation<T>>);
-
         const differ = new TranslationDiffer(translationType, this.connection);
         const diff = differ.diff(existingTranslations, input.translations);
         const entity = await differ.applyDiff(

@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectDataSource } from '@nestjs/typeorm/dist/common/typeorm.decorators';
 import { ID, Type } from '@vendure/common/lib/shared-types';
 import {
+    Brackets,
     DataSource,
     EntityManager,
     EntitySchema,
@@ -9,9 +10,10 @@ import {
     FindOneOptions,
     ObjectLiteral,
     ObjectType,
+    ReplicationMode,
     Repository,
     SelectQueryBuilder,
-    ReplicationMode,
+    WhereExpressionBuilder,
 } from 'typeorm';
 
 import { RequestContext } from '../api/common/request-context';
@@ -314,7 +316,7 @@ export class TransactionalConnection {
         entity: Type<T>,
         id: ID,
         channelId: ID,
-        options: FindOneOptions<T> = {},
+        options: FindOneOptions<T> & { includeGlobalEntities?: boolean } = {},
     ) {
         const qb = this.getRepository(ctx, entity).createQueryBuilder('entity');
 
@@ -331,13 +333,12 @@ export class TransactionalConnection {
             ...options,
         });
 
-        qb.leftJoin('entity.channels', '__channel')
-            .andWhere('entity.id = :id', { id })
-            .andWhere('__channel.id = :channelId', { channelId });
-
-        return qb.getOne().then(result => {
-            return result ?? undefined;
-        });
+        qb.andWhere('entity.id = :id', { id });
+        return applyChannelConditions(qb, channelId, options.includeGlobalEntities)
+            .getOne()
+            .then(result => {
+                return result ?? undefined;
+            });
     }
 
     /**
@@ -350,7 +351,7 @@ export class TransactionalConnection {
         entity: Type<T>,
         ids: ID[],
         channelId: ID,
-        options: FindManyOptions<T>,
+        options: FindManyOptions<T> & { includeGlobalEntities?: boolean },
     ) {
         // the syntax described in https://github.com/typeorm/typeorm/issues/1239#issuecomment-366955628
         // breaks if the array is empty
@@ -376,14 +377,68 @@ export class TransactionalConnection {
             ...options,
         });
 
-        return qb
-            .leftJoin('entity.channels', 'channel')
-            .andWhere('entity.id IN (:...ids)', { ids })
-            .andWhere('channel.id = :channelId', { channelId })
-            .getMany();
+        qb.andWhere('entity.id IN (:...ids)', { ids });
+        return applyChannelConditions(qb, channelId, options.includeGlobalEntities).getMany();
     }
 
     private getTransactionManager(ctx: RequestContext): EntityManager | undefined {
         return (ctx as any)[TRANSACTION_MANAGER_KEY];
+    }
+}
+
+/**
+ * Applies channel conditions to the query builder.
+ */
+export function applyChannelConditions<T extends ChannelAware | VendureEntity>(
+    qb: SelectQueryBuilder<T>,
+    channelId: ID,
+    includeGlobalEntities: boolean = true,
+) {
+    qb.leftJoin(`${qb.alias}.channels`, 'channel');
+    if (includeGlobalEntities) {
+        qb.andWhere(
+            new Brackets(whereBuilder => {
+                addGlobalConditions(qb, whereBuilder);
+                whereBuilder.orWhere('channel.id = :channelId', { channelId });
+            }),
+        );
+    } else {
+        qb.andWhere('channel.id = :channelId', { channelId });
+    }
+    return qb;
+}
+
+/**
+ * Adds conditions to include global entities in the query
+ */
+function addGlobalConditions<T extends ChannelAware | VendureEntity>(
+    qb: SelectQueryBuilder<T>,
+    whereBuilder: WhereExpressionBuilder,
+) {
+    const hasGlobalField = qb.expressionMap.mainAlias?.metadata.columns.some(
+        col => col.propertyName === 'global',
+    );
+    if (hasGlobalField) {
+        whereBuilder.where(`${qb.alias}.global = true`);
+    }
+
+    // For entities without a 'global' field, include them if their parent/grouping entity is global.
+    // Skip this for entities that have their own 'global' field to prevent unintended inclusion via parent.
+    const allRelations = qb.expressionMap.mainAlias?.metadata.relations || [];
+    const relationsWithGlobal = allRelations
+        .filter(
+            relation =>
+                !hasGlobalField &&
+                relation.isManyToOne &&
+                relation.inverseEntityMetadata.columns.some(col => col.propertyName === 'global'),
+        )
+        .map(relation => relation.propertyPath);
+
+    for (const relation of relationsWithGlobal) {
+        const relationAlias = relation.split('.').pop() || relation;
+        if (!qb.expressionMap.joinAttributes.some(ja => ja.alias.name === relationAlias)) {
+            qb.leftJoin(`${qb.alias}.${relation}`, relationAlias);
+        }
+        whereBuilder.orWhere(`${relationAlias}.global = true`);
     }
 }

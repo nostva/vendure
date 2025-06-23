@@ -18,12 +18,12 @@ import {
 } from '@vendure/common/lib/generated-types';
 import { PaginatedList } from '@vendure/common/lib/shared-types';
 
-import { EntityNotFoundError } from '../../../common/error/errors';
 import { ErrorResultUnion } from '../../../common/error/error-result';
+import { EntityNotFoundError } from '../../../common/error/errors';
 import { Translated } from '../../../common/types/locale-types';
 import { ConfigService } from '../../../config/config.service';
-import { Facet } from '../../../entity/facet/facet.entity';
 import { FacetValue } from '../../../entity/facet-value/facet-value.entity';
+import { Facet } from '../../../entity/facet/facet.entity';
 import { FacetValueService } from '../../../service/services/facet-value.service';
 import { FacetService } from '../../../service/services/facet.service';
 import { RequestContext } from '../../common/request-context';

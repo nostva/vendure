@@ -53,25 +53,28 @@
                 </ng-template>
             </vdr-dt2-column>
             <vdr-dt2-column
-                [heading]="'common.created-at' | translate" id="created-at"
+                [heading]="'common.created-at' | translate"
+                id="created-at"
                 [hiddenByDefault]="true"
                 [sort]="sorts.get('createdAt')"
             >
                 <ng-template let-collection="item">
-                    {{ collection.createdAt | localeDate : 'short' }}
+                    {{ collection.createdAt | localeDate: 'short' }}
                 </ng-template>
             </vdr-dt2-column>
             <vdr-dt2-column
-                [heading]="'common.updated-at' | translate" id="updated-at"
+                [heading]="'common.updated-at' | translate"
+                id="updated-at"
                 [hiddenByDefault]="true"
                 [sort]="sorts.get('updatedAt')"
             >
                 <ng-template let-collection="item">
-                    {{ collection.updatedAt | localeDate : 'short' }}
+                    {{ collection.updatedAt | localeDate: 'short' }}
                 </ng-template>
             </vdr-dt2-column>
             <vdr-dt2-column
-                [heading]="'common.position' | translate" id="position"
+                [heading]="'common.position' | translate"
+                id="position"
                 [hiddenByDefault]="true"
                 [sort]="sorts.get('position')"
             >
@@ -80,7 +83,8 @@
                 </ng-template>
             </vdr-dt2-column>
             <vdr-dt2-column
-                [heading]="'common.name' | translate" id="name"
+                [heading]="'common.name' | translate"
+                id="name"
                 [optional]="false"
                 [sort]="sorts.get('name')"
             >
@@ -129,13 +133,27 @@
                 <ng-template let-collection="item">
                     <vdr-chip *ngIf="collection.isPrivate" colorType="warning">{{
                         'common.private' | translate
-                        }}</vdr-chip>
+                    }}</vdr-chip>
                     <vdr-chip *ngIf="!collection.isPrivate" colorType="success">{{
                         'common.public' | translate
-                        }}</vdr-chip>
+                    }}</vdr-chip>
                 </ng-template>
             </vdr-dt2-column>
-            <vdr-dt2-column [heading]="'common.view-contents' | translate" id="view-contents" [optional]="false">
+            <vdr-dt2-column [heading]="'catalog.availability' | translate" id="availability">
+                <ng-template let-facet="item">
+                    <vdr-chip *ngIf="facet.global" colorType="success">{{
+                        'catalog.all-channels' | translate
+                    }}</vdr-chip>
+                    <vdr-chip *ngIf="!facet.global" colorType="warning">{{
+                        'catalog.assigned-channels' | translate
+                    }}</vdr-chip>
+                </ng-template>
+            </vdr-dt2-column>
+            <vdr-dt2-column
+                [heading]="'common.view-contents' | translate"
+                id="view-contents"
+                [optional]="false"
+            >
                 <ng-template let-collection="item">
                     <a
                         class="button-small bg-weight-150"

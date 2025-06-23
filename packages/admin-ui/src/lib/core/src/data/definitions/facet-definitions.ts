@@ -30,6 +30,7 @@ export const FACET_WITH_VALUES_FRAGMENT = gql`
         updatedAt
         languageCode
         isPrivate
+        global
         code
         name
         translations {
@@ -51,6 +52,7 @@ export const FACET_WITH_VALUE_LIST_FRAGMENT = gql`
         updatedAt
         languageCode
         isPrivate
+        global
         code
         name
         translations {

@@ -36,12 +36,14 @@ input CreateProductOptionGroupInput {
     code: String!
     translations: [ProductOptionGroupTranslationInput!]!
     options: [CreateGroupOptionInput!]!
+    global: Boolean!
 }
 
 input UpdateProductOptionGroupInput {
     id: ID!
     code: String
     translations: [ProductOptionGroupTranslationInput!]
+    global: Boolean
 }
 
 input ProductOptionTranslationInput {

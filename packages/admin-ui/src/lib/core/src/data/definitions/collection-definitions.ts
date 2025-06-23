@@ -22,6 +22,7 @@ export const COLLECTION_FRAGMENT = gql`
         description
         isPrivate
         languageCode
+        global
         breadcrumbs {
             id
             name
@@ -66,6 +67,7 @@ export const COLLECTION_FOR_LIST_FRAGMENT = gql`
         slug
         position
         isPrivate
+        global
         breadcrumbs {
             id
             name

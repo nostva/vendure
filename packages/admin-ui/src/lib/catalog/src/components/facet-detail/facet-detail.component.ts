@@ -55,7 +55,7 @@ type ValueItem =
     templateUrl: './facet-detail.component.html',
     styleUrls: ['./facet-detail.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+    standalone: false,
 })
 export class FacetDetailComponent
     extends TypedBaseDetailComponent<typeof GetFacetDetailDocument, 'facet'>
@@ -69,6 +69,7 @@ export class FacetDetailComponent
             name: '',
             visible: true,
             customFields: this.formBuilder.group(getCustomFieldsDefaults(this.customFields)),
+            global: false,
         }),
         values: this.formBuilder.record<
             FormGroup<{
@@ -85,6 +86,7 @@ export class FacetDetailComponent
     filterControl = new FormControl('');
     values$ = new BehaviorSubject<ValueItem[]>([]);
     readonly updatePermission = [Permission.UpdateCatalog, Permission.UpdateFacet];
+    readonly updateGlobalPermission = [Permission.SuperAdmin];
 
     constructor(
         private changeDetector: ChangeDetectorRef,
@@ -175,6 +177,7 @@ export class FacetDetailComponent
                 name: '',
                 code: '',
                 translations: [],
+                global: false,
             },
             facetForm,
             this.languageCode,
@@ -336,6 +339,7 @@ export class FacetDetailComponent
                 code: facet.code,
                 visible: !facet.isPrivate,
                 name: currentTranslation?.name ?? '',
+                global: facet.global,
             },
         });
 
@@ -416,6 +420,7 @@ export class FacetDetailComponent
             },
         });
         input.isPrivate = !facetFormGroup.value.visible;
+        input.global = !!facetFormGroup.value.global;
         return input;
     }
 

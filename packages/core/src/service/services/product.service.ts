@@ -250,7 +250,7 @@ export class ProductService {
     async update(ctx: RequestContext, input: UpdateProductInput): Promise<Translated<Product>> {
         const product = await this.connection.getEntityOrThrow(ctx, Product, input.id, {
             channelId: ctx.channelId,
-            relations: ['facetValues', 'facetValues.channels'],
+            relations: ['facetValues', 'facetValues.facet', 'facetValues.channels'],
         });
         await this.slugValidator.validateSlugs(ctx, input, ProductTranslation);
         const updatedProduct = await this.translatableSaver.update({
@@ -260,8 +260,10 @@ export class ProductService {
             translationType: ProductTranslation,
             beforeSave: async p => {
                 if (input.facetValueIds) {
-                    const facetValuesInOtherChannels = product.facetValues.filter(fv =>
-                        fv.channels.every(channel => !idsAreEqual(channel.id, ctx.channelId)),
+                    const facetValuesInOtherChannels = product.facetValues.filter(
+                        fv =>
+                            fv.channels.every(channel => !idsAreEqual(channel.id, ctx.channelId)) &&
+                            !fv.facet.global,
                     );
                     p.facetValues = [
                         ...facetValuesInOtherChannels,

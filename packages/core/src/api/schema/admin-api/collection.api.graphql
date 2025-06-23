@@ -4,7 +4,10 @@ type Query {
     collection(id: ID, slug: String): Collection
     collectionFilters: [ConfigurableOperationDefinition!]!
     "Used for real-time previews of the contents of a Collection"
-    previewCollectionVariants(input: PreviewCollectionVariantsInput!, options: ProductVariantListOptions): ProductVariantList!
+    previewCollectionVariants(
+        input: PreviewCollectionVariantsInput!
+        options: ProductVariantListOptions
+    ): ProductVariantList!
 }
 
 type Mutation {
@@ -64,6 +67,7 @@ input CreateCollectionInput {
     inheritFilters: Boolean
     filters: [ConfigurableOperationInput!]!
     translations: [CreateCollectionTranslationInput!]!
+    global: Boolean!
 }
 
 input PreviewCollectionVariantsInput {
@@ -81,6 +85,7 @@ input UpdateCollectionInput {
     inheritFilters: Boolean
     filters: [ConfigurableOperationInput!]
     translations: [UpdateCollectionTranslationInput!]
+    global: Boolean
 }
 
 input AssignCollectionsToChannelInput {

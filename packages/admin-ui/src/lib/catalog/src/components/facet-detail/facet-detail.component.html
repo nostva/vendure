@@ -56,6 +56,25 @@
                 </vdr-form-field>
             </vdr-card>
             <vdr-card>
+                <vdr-form-field [label]="'catalog.availability' | translate" for="global">
+                    <clr-toggle-wrapper>
+                        <input
+                            type="checkbox"
+                            clrToggle
+                            [vdrDisabled]="!(updateGlobalPermission | hasPermission)"
+                            formControlName="global"
+                            id="global"
+                        />
+                        <label class="global-toggle">
+                            <ng-container *ngIf="detailForm.value.facet?.global; else channel">{{
+                                'catalog.all-channels' | translate
+                            }}</ng-container>
+                            <ng-template #channel>{{ 'catalog.assigned-channels' | translate }}</ng-template>
+                        </label>
+                    </clr-toggle-wrapper>
+                </vdr-form-field>
+            </vdr-card>
+            <vdr-card>
                 <vdr-page-entity-info *ngIf="entity$ | async as entity" [entity]="entity" />
             </vdr-card>
         </vdr-page-detail-sidebar>

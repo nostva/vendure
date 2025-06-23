@@ -48,6 +48,7 @@ export class CollectionDataService {
                 'inheritFilters',
                 'filters',
                 'customFields',
+                'global',
             ]),
         });
     }
@@ -66,6 +67,7 @@ export class CollectionDataService {
                 'inheritFilters',
                 'filters',
                 'customFields',
+                'global',
             ]),
         });
     }

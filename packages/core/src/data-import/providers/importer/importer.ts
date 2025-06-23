@@ -331,6 +331,7 @@ export class Importer {
                     facetEntity = existing;
                 } else {
                     facetEntity = await this.facetService.create(ctx, {
+                        global: false,
                         isPrivate: false,
                         code: normalizeString(facetName, '-'),
                         translations: item.translations.map(translation => {

@@ -206,6 +206,7 @@ export class CollectionDetailComponent
                 filters: [],
                 parent: {} as any,
                 children: null,
+                global: false,
             },
             this.detailForm,
             this.languageCode,

@@ -196,7 +196,10 @@
     "variant": "البديل",
     "variant-count": "{count, plural, one {1 متغير} other {{count} متغيرات}}",
     "view-contents": "عرض المحتويات",
-    "visibility": "الرؤية"
+    "visibility": "الرؤية",
+    "availability": "متاح",  
+    "all-channels": "جميع القنوات",  
+    "assigned-channels": "القنوات المعينة" 
   },
   "common": {
     "ID": "معرف",
