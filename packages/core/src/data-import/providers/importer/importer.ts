@@ -216,6 +216,7 @@ export class Importer {
                 const code = normalizeString(optionGroupMainTranslation.name, '-');
                 const groupId = await this.fastImporter.createProductOptionGroup({
                     code,
+                    global: false,
                     options: optionGroupMainTranslation.values.map(name => ({}) as any),
                     translations: optionGroup.translations.map(translation => {
                         return {

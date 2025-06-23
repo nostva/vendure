@@ -114,6 +114,7 @@ export const productDuplicator = new EntityDuplicator({
                 for (const optionGroup of product.optionGroups) {
                     const newOptionGroup = await productOptionGroupService.create(ctx, {
                         code: optionGroup.code,
+                        global: optionGroup.global,
                         translations: optionGroup.translations.map(translation => {
                             return {
                                 languageCode: translation.languageCode,

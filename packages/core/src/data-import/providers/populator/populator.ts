@@ -12,7 +12,7 @@ import {
 } from '../../../config';
 import { manualFulfillmentHandler } from '../../../config/fulfillment/manual-fulfillment-handler';
 import { TransactionalConnection } from '../../../connection/transactional-connection';
-import { Channel, Collection, FacetValue, TaxCategory, User } from '../../../entity';
+import { Channel, Collection, FacetValue, User } from '../../../entity';
 import {
     CollectionService,
     FacetValueService,
@@ -135,6 +135,7 @@ export class Populator {
                 Logger.error(e.message);
             }
             const collection = await this.collectionService.create(ctx, {
+                global: false,
                 translations: [
                     {
                         languageCode: ctx.languageCode,

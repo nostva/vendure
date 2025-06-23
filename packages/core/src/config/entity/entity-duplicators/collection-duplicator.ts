@@ -52,6 +52,7 @@ export const collectionDuplicator = new EntityDuplicator({
         });
         const collectionInput: CreateCollectionInput = {
             featuredAssetId: collection.featuredAsset?.id,
+            global: collection.global,
             isPrivate: true,
             assetIds: collection.assets.map(value => value.assetId),
             parentId: collection.parentId,
