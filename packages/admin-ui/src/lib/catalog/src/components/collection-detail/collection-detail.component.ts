@@ -68,6 +68,7 @@ export class CollectionDetailComponent
         inheritFilters: true,
         filters: this.formBuilder.array([]),
         customFields: this.formBuilder.group(getCustomFieldsDefaults(this.customFields)),
+        global: false,
     });
     assetChanges: { assets?: Asset[]; featuredAsset?: Asset } = {};
     filters: ConfigurableOperation[] = [];
@@ -77,6 +78,7 @@ export class CollectionDetailComponent
     livePreview = false;
     parentId$: Observable<string | undefined>;
     readonly updatePermission = [Permission.UpdateCatalog, Permission.UpdateCollection];
+    readonly updateGlobalPermission = [Permission.SuperAdmin];
     private filterRemoved$ = new Subject<void>();
     @ViewChild('collectionContents') contentsComponent: CollectionContentsComponent;
 
@@ -289,6 +291,7 @@ export class CollectionDetailComponent
             description: currentTranslation ? currentTranslation.description : '',
             visible: !entity.isPrivate,
             inheritFilters: entity.inheritFilters,
+            global: entity.global,
         });
 
         const formArray = this.detailForm.get('filters') as UntypedFormArray;
@@ -335,6 +338,7 @@ export class CollectionDetailComponent
             featuredAssetId: this.assetChanges.featuredAsset?.id,
             isPrivate: !form.value.visible,
             filters: this.mapOperationsToInputs(this.filters, this.detailForm.value.filters),
+            global: form.value.global,
         };
     }
 
