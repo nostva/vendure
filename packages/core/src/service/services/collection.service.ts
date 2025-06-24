@@ -547,6 +547,7 @@ export class CollectionService implements OnModuleInit {
     async delete(ctx: RequestContext, id: ID): Promise<DeletionResponse> {
         const collection = await this.connection.getEntityOrThrow(ctx, Collection, id, {
             channelId: ctx.channelId,
+            includeGlobalEntities: false,
         });
         const deletedCollection = new Collection(collection);
         const descendants = await this.getDescendants(ctx, collection.id);

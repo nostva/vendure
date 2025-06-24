@@ -772,6 +772,7 @@ export class CustomerService {
             Customer,
             address.customer.id,
             ctx.channelId,
+            { includeGlobalEntities: false },
         );
         if (!customer) {
             throw new EntityNotFoundError('Address', id);
@@ -796,6 +797,7 @@ export class CustomerService {
     async softDelete(ctx: RequestContext, customerId: ID): Promise<DeletionResponse> {
         const customer = await this.connection.getEntityOrThrow(ctx, Customer, customerId, {
             channelId: ctx.channelId,
+            includeGlobalEntities: false,
         });
         await this.connection
             .getRepository(ctx, Customer)

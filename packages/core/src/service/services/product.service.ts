@@ -286,6 +286,7 @@ export class ProductService {
             loadEagerRelations: false,
             channelId: ctx.channelId,
             relations: ['variants', 'optionGroups'],
+            includeGlobalEntities: false,
         });
         product.deletedAt = new Date();
         await this.connection.getRepository(ctx, Product).save(product, { reload: false });

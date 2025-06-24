@@ -109,6 +109,7 @@ export class StockLocationService {
             StockLocation,
             input.id,
             ctx.channelId,
+            { includeGlobalEntities: false },
         );
         if (!stockLocation) {
             throw new EntityNotFoundError('StockLocation', input.id);

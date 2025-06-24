@@ -196,6 +196,7 @@ export class FacetService {
         const facet = await this.connection.getEntityOrThrow(ctx, Facet, id, {
             relations: ['values'],
             channelId: ctx.channelId,
+            includeGlobalEntities: false,
         });
         let productCount = 0;
         let variantCount = 0;

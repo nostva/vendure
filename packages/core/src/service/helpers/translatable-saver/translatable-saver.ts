@@ -96,7 +96,10 @@ export class TranslatableSaver {
     async update<T extends Translatable & VendureEntity>(options: UpdateTranslatableOptions<T>): Promise<T> {
         const { ctx, entityType, translationType, input, beforeSave, typeOrmSubscriberData } = options;
         if ('global' in input) {
-            const baseEntity = await this.connection.getEntityOrThrow(ctx, entityType, input.id);
+            const baseEntity = await this.connection.getEntityOrThrow(ctx, entityType, input.id, {
+                channelId: ctx.channelId,
+                includeGlobalEntities: false,
+            });
             const isChangingGlobalField = 'global' in baseEntity && baseEntity.global !== input.global;
             if (isChangingGlobalField && !ctx.userHasPermissions([Permission.SuperAdmin])) {
                 throw new ForbiddenError();

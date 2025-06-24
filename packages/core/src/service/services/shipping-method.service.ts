@@ -186,6 +186,7 @@ export class ShippingMethodService {
     async softDelete(ctx: RequestContext, id: ID): Promise<DeletionResponse> {
         const shippingMethod = await this.connection.getEntityOrThrow(ctx, ShippingMethod, id, {
             channelId: ctx.channelId,
+            includeGlobalEntities: false,
             where: { deletedAt: IsNull() },
         });
         shippingMethod.deletedAt = new Date();
