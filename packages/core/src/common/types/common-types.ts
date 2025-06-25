@@ -15,6 +15,7 @@ import { LocaleString } from './locale-types';
  * @docsPage interfaces
  */
 export interface ChannelAware {
+    global?: boolean;
     channels: Channel[];
 }
 

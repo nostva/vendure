@@ -12,6 +12,7 @@ import { ConfigArgService } from './helpers/config-arg/config-arg.service';
 import { CustomFieldRelationService } from './helpers/custom-field-relation/custom-field-relation.service';
 import { EntityDuplicatorService } from './helpers/entity-duplicator/entity-duplicator.service';
 import { EntityHydrator } from './helpers/entity-hydrator/entity-hydrator.service';
+import { EntityMutationGuard } from './helpers/entity-mutation-guard/entity-mutation-guard';
 import { ExternalAuthenticationService } from './helpers/external-authentication/external-authentication.service';
 import { FacetValueChecker } from './helpers/facet-value-checker/facet-value-checker';
 import { FulfillmentStateMachine } from './helpers/fulfillment-state-machine/fulfillment-state-machine';
@@ -109,6 +110,7 @@ const services = [
 
 const helpers = [
     TranslatableSaver,
+    EntityMutationGuard,
     PasswordCipher,
     OrderCalculator,
     OrderStateMachine,
