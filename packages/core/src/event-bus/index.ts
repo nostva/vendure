@@ -1,7 +1,7 @@
 export * from './event-bus';
 export * from './event-bus.module';
-export * from './vendure-event';
 export * from './vendure-entity-event';
+export * from './vendure-event';
 
 export * from './events/account-registration-event';
 export * from './events/account-verified-event';
@@ -17,8 +17,8 @@ export * from './events/country-event';
 export * from './events/coupon-code-event';
 export * from './events/customer-address-event';
 export * from './events/customer-event';
-export * from './events/customer-group-event';
 export * from './events/customer-group-change-event';
+export * from './events/customer-group-event';
 export * from './events/facet-event';
 export * from './events/facet-value-event';
 export * from './events/fulfillment-event';
@@ -47,6 +47,7 @@ export * from './events/product-variant-channel-event';
 export * from './events/product-variant-event';
 export * from './events/product-variant-price-event';
 export * from './events/promotion-event';
+export * from './events/province-event';
 export * from './events/refund-event';
 export * from './events/refund-state-transition-event';
 export * from './events/role-change-event';
